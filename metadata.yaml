@@ -1,0 +1,379 @@
+# OmniFold Publication Metadata
+# Metadata describing OmniFold weights for Z+jets pseudodata
+
+schema_version: "1.0"
+
+#Dataset identity
+dataset:
+  name: "OmniFold Z+jets pseudodata"
+  description: >
+    Per-event OmniFold weights for a Z+jets measurement using ATLAS pseudodata.
+    The unfolding is performed at particle level over a set of dilepton and
+    track-jet kinematic observables.
+  experiment: "ATLAS (pseudodata)"
+  analysis_label: "Zjets_OmniFold_pseudodata_v1"
+  zenodo_doi: "https://zenodo.org/records/11507450" 
+
+#Generation
+generation:
+  nominal_mc_generator: "MadGraph5 (MG5)"
+  nominal_mc_tune: ""  # e.g. A14
+  parton_shower: ""  # e.g. Pythia8
+  pdf_set: ""  # e.g. NNPDF3.0
+  omnifold_version: ""  # package version used
+  n_iterations: null  # number of OmniFold iterations
+  n_ensemble_members: 100  # inferred from weights_ensemble_0..99
+  n_bootstrap_replicas: 25  # inferred from weights_bootstrap_*_0..24
+
+# Event selection
+event_selection:
+  description: >
+    Fiducial selection applied before unfolding. Fill in all cuts used
+    to define the phase space.
+  leptons:
+    flavour: "muon"
+    min_pt_GeV: null       
+    max_abs_eta: null    
+    min_invariant_mass_GeV: null
+    max_invariant_mass_GeV: null
+  jets:
+    algorithm: null  # e.g. anti-kt track jets
+    radius_parameter: null # e.g. 0.4
+    min_pt_GeV: null
+    max_abs_rapidity: null
+  additional_cuts: []  # list any extra requirements here
+
+# Observables
+observables:
+  - name: pT_ll
+    description: "Transverse momentum of the dilepton system"
+    unit: GeV
+    level: particle
+
+  - name: y_ll
+    description: "Rapidity of the dilepton system"
+    unit: dimensionless
+    level: particle
+
+  - name: pT_l1
+    description: "Transverse momentum of the leading lepton"
+    unit: GeV
+    level: particle
+
+  - name: pT_l2
+    description: "Transverse momentum of the subleading lepton"
+    unit: GeV
+    level: particle
+
+  - name: eta_l1
+    description: "Pseudorapidity of the leading lepton"
+    unit: dimensionless
+    level: particle
+
+  - name: eta_l2
+    description: "Pseudorapidity of the subleading lepton"
+    unit: dimensionless
+    level: particle
+
+  - name: phi_l1
+    description: "Azimuthal angle of the leading lepton"
+    unit: radians
+    level: particle
+
+  - name: phi_l2
+    description: "Azimuthal angle of the subleading lepton"
+    unit: radians
+    level: particle
+
+  - name: pT_trackj1
+    description: "Transverse momentum of the leading track-jet"
+    unit: GeV
+    level: particle
+
+  - name: pT_trackj2
+    description: "Transverse momentum of the subleading track-jet"
+    unit: GeV
+    level: particle
+
+  - name: y_trackj1
+    description: "Rapidity of the leading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: y_trackj2
+    description: "Rapidity of the subleading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: phi_trackj1
+    description: "Azimuthal angle of the leading track-jet"
+    unit: radians
+    level: particle
+
+  - name: phi_trackj2
+    description: "Azimuthal angle of the subleading track-jet"
+    unit: radians
+    level: particle
+
+  - name: m_trackj1
+    description: "Invariant mass of the leading track-jet"
+    unit: GeV
+    level: particle
+
+  - name: m_trackj2
+    description: "Invariant mass of the subleading track-jet"
+    unit: GeV
+    level: particle
+
+  - name: tau1_trackj1
+    description: "1-subjettiness of the leading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: tau2_trackj1
+    description: "2-subjettiness of the leading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: tau3_trackj1
+    description: "3-subjettiness of the leading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: tau1_trackj2
+    description: "1-subjettiness of the subleading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: tau2_trackj2
+    description: "2-subjettiness of the subleading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: tau3_trackj2
+    description: "3-subjettiness of the subleading track-jet"
+    unit: dimensionless
+    level: particle
+
+  - name: Ntracks_trackj1
+    description: "Number of tracks in the leading track-jet"
+    unit: count
+    level: particle
+
+  - name: Ntracks_trackj2
+    description: "Number of tracks in the subleading track-jet"
+    unit: count
+    level: particle
+
+# Weight columns
+weights:
+
+  # Core weights present in all files
+  - name: weight_mc
+    description: "Original Monte Carlo generator event weight"
+    type: core
+    files: [multifold.h5, multifold_sherpa.h5, multifold_nonDY.h5]
+
+  - name: weights_nominal
+    description: >
+      Nominal OmniFold reweighting factor. The final analysis weight for an
+      event is: weight_mc * weights_nominal.
+    type: core
+    role: central_value
+    usage: "Multiply weight_mc by this column to obtain the fully unfolded event weight."
+    files: [multifold.h5, multifold_sherpa.h5, multifold_nonDY.h5]
+
+  # Statistical uncertainty (bootstraps)
+  - name: weights_bootstrap_mc_{i}
+    description: >
+      Bootstrap replica i of the MC-side OmniFold weight (i=0..24).
+      Use these 25 replicas to estimate statistical uncertainties due to
+      finite MC sample size.
+    type: statistical_uncertainty
+    index_range: [0, 24]
+    files: [multifold.h5, multifold_sherpa.h5]
+
+  - name: weights_bootstrap_data_{i}
+    description: >
+      Bootstrap replica i of the data-side OmniFold weight (i=0..24).
+      Use these 25 replicas to estimate statistical uncertainties due to
+      finite data sample size.
+    type: statistical_uncertainty
+    index_range: [0, 24]
+    files: [multifold.h5]
+
+  # ML uncertainty (ensemble)
+  - name: weights_ensemble_{i}
+    description: >
+      Weight from ensemble member i (i = 0..99).Each member corresponds
+      to an independently trained classifier.Spread across members encodes
+      machine-learning/training variance.
+    type: ml_uncertainty
+    index_range: [0, 99]
+    files: [multifold.h5]
+
+  # Systematic weights
+  - name: weights_lumi
+    description: "Luminosity uncertainty reweighting"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muEffReco
+    description: "Muon reconstruction efficiency systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muEffTrig
+    description: "Muon trigger efficiency systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muEffIso
+    description: "Muon isolation efficiency systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muEffTrack
+    description: "Muon track efficiency systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muCalID
+    description: "Muon calibration (ID) systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muCalMS
+    description: "Muon calibration (MS) systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muCalResBias
+    description: "Muon momentum resolution bias systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_muCalScale
+    description: "Muon momentum scale systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_pileup
+    description: "Pileup reweighting systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_theoryPDF
+    description: "Theory PDF uncertainty reweighting"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_theoryQCD
+    description: "QCD scale variation reweighting"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_theoryAlphaS
+    description: "alpha_s uncertainty reweighting"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_theoryMPI
+    description: "Multi-parton interaction (MPI) uncertainty reweighting"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_theoryPSjet
+    description: "Parton shower jet systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_theoryPSscale
+    description: "Parton shower scale systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_theoryPSsoft
+    description: "Parton shower soft radiation systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_trackEffJet
+    description: "Track-jet track efficiency systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_trackEffMain
+    description: "Main track efficiency systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_trackFake
+    description: "Fake track rate systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_trackPtScale
+    description: "Track pT scale systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_topBackground
+    description: "Top quark background normalisation systematic"
+    type: systematic
+    files: [multifold.h5]
+
+  - name: weights_dd
+    description: "Data-driven background weight"
+    type: other
+    files: [multifold.h5]
+
+# Systematic variation files
+systematic_files:
+  - file: multifold_sherpa.h5
+    description: >
+      Alternative generator systematic. Events generated with Sherpa instead
+      of MG5. Contains the same observables and bootstrap_mc replicas but no
+      detector systematics. Use to assess generator modelling uncertainty.
+    variation_type: generator_modelling
+    generator: Sherpa
+    n_events: 326430
+
+  - file: multifold_nonDY.h5
+    description: >
+      Alternative sample composition systematic. Includes electroweak Zjj/VBF
+      and diboson contributions in addition to Drell-Yan. Contains only
+      weight_mc and weights_nominal. Use to assess sample composition
+      uncertainty.
+    variation_type: sample_composition
+    extra_processes: ["EW Zjj/VBF", "diboson"]
+    n_events: 433397
+
+# Normalization
+normalization:
+  convention: null # e.g. "shape_only" or "absolute_cross_section"
+  luminosity_ifb: null  # integrated luminosity in fb^-1, if applicable
+  notes: >
+    Fill in whether weights already include luminosity normalization or whether
+    an additional luminosity factor must be applied. For shape-only comparisons,
+    histograms should be normalized to unit area after applying event weights.
+
+# How to use these files
+usage:
+  final_event_weight: "weight_mc*weights_nominal"
+  statistical_uncertainty: >
+    Compute the observable histogram using each weights_bootstrap_mc_{i} replica
+    in place of weights_nominal (keeping weight_mc). The standard deviation
+    across the 25 histograms gives the statistical uncertainty band.
+  ml_uncertainty: >
+    Compute the histogram using each weights_ensemble_{i} in place of
+    weights_nominal. The spread across 100 members gives the ML training variance.
+  detector_systematics: >
+    For each weights_<syst> column, replace weights_nominal with weights_<syst>
+    and recompute the histogram. The difference from nominal is the systematic shift.
+  generator_systematic: >
+    Compute the histogram using multifold_sherpa.h5 with its own weights_nominal,
+    then compare to the nominal histogram from multifold.h5.
+  sample_composition_systematic: >
+    Compute the histogram using multifold_nonDY.h5 with its own weights_nominal,
+    then compare to the nominal histogram from multifold.h5.
