@@ -4,7 +4,7 @@
 
 The provided files (`multifold.h5`,`multifold_sherpa.h5`, and `multifold_nonDY.h5`) contain event-level data representing the results of an OmniFold unfolding procedure applied to a Z+jets measurement.Each row corresponds to a single event and contains both physics observables and event weights used for reweighting.
 
-Inspection of the files shows that they share a consistent set of physics observables but differ significantly in the number and type of weight columns stored.
+Inspection of the files shows that they share a consistent set of physics observables but differ in the number and type of weight columns stored.
 
 The structure of the files suggests that the nominal file contains the full uncertainty payload, while the other files represent systematic variations with reduced metadata.
 
