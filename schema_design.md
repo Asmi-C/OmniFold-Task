@@ -2,22 +2,20 @@
 
 ## Overview
 
-This document explains the design decisions behind `metadata.yaml`, which
-is intended to accompany the OmniFold weight files for the Z+jets pseudodata
-measurement.
+This document explains the design decisions behind `metadata.yaml`.
 
 ---
 
-## Why do we use YAML here?
+## Why I have used YAML here?
 
 YAML was chosen because it is simultaneously machine-readable and
 human-readable without requiring a special viewer. A physicist unfamiliar
 with the analysis can open the file in any text editor and understand the
 dataset before writing a single line of code. At the same time, downstream
 tools can parse it with a single `yaml.safe_load()` call in Python. JSON
-would also be machine-readable, but it is less readable for humans and does
+is also machine-readable, but it is less readable for humans and does
 not support inline comments, which are important for documentation. A
-domain-specific format (e.g., ROOT TTrees with embedded headers) would
+domain-specific format (like ROOT TTrees with embedded headers) would
 require special tooling and would not generalize across experiments.
 
 ---
@@ -41,13 +39,13 @@ This section records how the Monte Carlo simulation was produced: generator,
 tune, parton shower, PDF set, and OmniFold configuration. This information
 is essential for understanding the systematic uncertainty files, which
 correspond to alternative generator choices. Fields like `n_ensemble_members`
-and `n_bootstrap_replicas` are included because a user reading the file
-would otherwise have to count weight columns manually to understand the
-uncertainty structure.
+and `n_bootstrap_replicas` are included because if it is not present then 
+a user reading the file would have to count weight columns manually to 
+understand the uncertainty structure.
 
 ### `event_selection`
 
-The fiducial phase space definition is the most critical missing piece in
+The fiducial phase space definition is the most important missing piece in
 the current files. Without knowing the lepton pT and eta cuts, the jet
 algorithm and radius, and the mass window, a physicist cannot reproduce the
 event selection, cannot check whether their own events fall inside the phase
@@ -124,7 +122,7 @@ place for that information.
 **Correlation structure of systematics** was not included because it is
 analysis-specific and complex. A full covariance matrix would require a
 different format (e.g., a separate JSON or NumPy file). The metadata schema
-records what each systematic is; the correlation structure is left to the
+records what each systematic is. The correlation structure is left to the
 analysis note.
 
 ---
