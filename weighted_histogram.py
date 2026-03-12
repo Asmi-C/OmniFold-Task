@@ -27,10 +27,10 @@ def whist(obs, wts=None, bins=30, rng=None, density=False,plot=False, xlabel="Ob
     if nused==0:
         raise ValueError("no finite obs/wts pairs remain after filtering")
 
-    # sensible default range when bins is a scalar and user gave no range
+    # default range when bins is a scalar and user has given no range
     if rng is None and np.isscalar(bins):
-        rng=(x.min(), x.max())
-        # avoid zero-width range when all values are identical
+        rng=(x.min(),x.max())
+        # avoiding zero-width range when all the values are identical
         if rng[0]==rng[1]:
             mid=rng[0]
             rng=(mid-0.5, mid+0.5)
@@ -63,15 +63,15 @@ def whist(obs, wts=None, bins=30, rng=None, density=False,plot=False, xlabel="Ob
 def runtests():
     # test 1: unit weights should match raw counts
     x=np.array([0.1,0.2,0.8,0.9])
-    out=whist(x, bins=2, rng=(0,1), plot=False)
+    out=whist(x,bins=2,rng=(0,1),plot=False)
     assert np.allclose(out["hist"],np.array([2.0, 2.0]))
     assert np.allclose(out["sumw2"],np.array([2.0, 2.0]))
 
     # test 2: weighted sums should be correct
     w=np.array([1.0,2.0,10.0,20.0])
-    out=whist(x, wts=w, bins=2, rng=(0,1), plot=False)
-    assert np.allclose(out["hist"], np.array([3.0,30.0]))
-    assert np.allclose(out["sumw2"], np.array([1.0**2+2.0**2,10.0**2+20.0**2]))
+    out=whist(x,wts=w,bins=2,rng=(0,1),plot=False)
+    assert np.allclose(out["hist"],np.array([3.0,30.0]))
+    assert np.allclose(out["sumw2"],np.array([1.0**2+2.0**2,10.0**2+20.0**2]))
 
     # test 3: nan/inf handling - only finite pairs should be used
     xbad=np.array([0.1,np.nan,0.8,np.inf,0.4])
