@@ -209,7 +209,7 @@ weights:
       to an independently trained classifier.Spread across members encodes
       machine-learning/training variance.
     type: ml_uncertainty
-    index_range: [0, 99]
+    index_range: [0,99]
     files: [multifold.h5]
 
   # Systematic weights
@@ -352,7 +352,7 @@ systematic_files:
 # Normalization
 normalization:
   convention: null # e.g. "shape_only" or "absolute_cross_section"
-  luminosity_ifb: null  # integrated luminosity in fb^-1, if applicable
+  luminosity_ifb: null  # integrated luminosity in fb^-1
   notes: >
     Fill in whether weights already include luminosity normalization or whether
     an additional luminosity factor must be applied. For shape-only comparisons,
