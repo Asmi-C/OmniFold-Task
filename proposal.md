@@ -403,6 +403,8 @@ omnifold_pub/
 
 ## Timeline
 
+![GSoC 2026 Timeline](gsoc_timeline.png)
+
 ### Community Bonding Period
 
 - Deep dive into the OmniFold codebase and the public Z+jets example
