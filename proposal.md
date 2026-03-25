@@ -46,7 +46,7 @@ OmniFold ([GitHub](https://github.com/hep-lbdl/OmniFold)) shifts the information
 
 ### Why This Matters Now
 
-As OmniFold and related multidimensional unfolding methods become increasingly common in major LHC experiments, the absence of a publication standard risks creating a library of results that are individually correct but collectively unreusable. Establishing a standard now—while the community is still small and flexible—will have lasting impact on the reproducibility of ML-based physics analyses.
+As OmniFold and related multidimensional unfolding methods become increasingly common in major LHC experiments, the absence of a publication standard risks creating a library of results that are individually correct but collectively unreusable. Establishing a standard now—while the community is still small and flexible—will have lasting impact on the reproducibility of ML-based physics analysis, ensuring that results can be compared and built upon across different studies and experiments.
 
 ---
 
@@ -56,7 +56,7 @@ As OmniFold and related multidimensional unfolding methods become increasingly c
 
 Particle physics detectors do not measure fundamental particle properties directly — they record detector-level signals that are smeared, distorted, and incomplete due to finite resolution, acceptance, and efficiency effects. *Unfolding* is the process of correcting for these detector effects to recover the underlying particle-level (truth-level) distributions, which can then be compared directly with theoretical predictions and with results from other experiments.
 
-Traditional unfolding methods (e.g., iterative Bayesian unfolding, SVD) produce fixed binned histograms — a corrected distribution in a specific set of bins chosen at analysis time. This is robust and well-understood, but it limits the information available for reinterpretation: if a theorist wants to compare against a different binning, or compute a new observable, they cannot do so from the published histogram alone.
+Traditional unfolding methods (e.g., iterative Bayesian unfolding, SVD) produce fixed binned histograms — a corrected distribution in a specific set of bins chosen at analysis time. This method is reliable and well-known, but it restricts the information for further analysis: if a user wants to look at a different way of grouping the data or calculate a new measurement, they can't do that from the published histogram.
 
 ### What is OmniFold?
 
@@ -79,7 +79,7 @@ Currently, HEPData's infrastructure is designed around binned histograms and tab
 
 ### The Gap This Project Fills
 
-The OmniFold package handles *running* the algorithm — training the classifiers and computing the weights. What does not yet exist is the infrastructure for what comes after: how to store the weights in a standard format, how to document them so others can reuse them, how to validate that the weights are correct, and how to submit them to HEPData. This project builds that infrastructure end-to-end.
+The OmniFold package handles *running* the algorithm — training the classifiers and computing the weights. The infrastructure for storing the weights in a standard format, documenting them for reuse, validating their correctness, and submitting them to HEPData does not exist. This project builds that infrastructure end-to-end.
 
 ---
 
@@ -131,9 +131,9 @@ I implemented a `compute_weighted_histogram` function that takes events, an obse
 
 The evaluation task gave me concrete experience with exactly the problems this project must solve. The most important insight: *the gap is not in the numerical data but in the surrounding context*. The files contain everything needed to compute histograms, but a physicist receiving them for the first time cannot reliably reproduce a result without significant reverse engineering. This proposal directly addresses that gap through a metadata-first design philosophy.
 
-### Head Start from the Evaluation Task
+### Contribution from the Evaluation Task
 
-Several components of this project are not starting from scratch, because the evaluation task was explicitly designed to mirror the project's core deliverables:
+Several components of this project are not starting from scratch, because the evaluation task act as the starting pointing of the project's core deliverables:
 
 | Evaluation Task Deliverable | Corresponding Project Task | Status |
 |---|---|---|
@@ -150,7 +150,8 @@ This means the project is de-risked from the start: the metadata schema has alre
 
 **This proposal prioritizes Tasks 1–6 and Task 8 as core deliverables within the 175-hour timeline. Task 7 (HEPData integration) is treated as a stretch goal to be completed if time permits.**
 
-The full pipeline this project implements end-to-end:
+The full end-to-end pipeline this project implements is as follows:
+
 
 ```
 OmniFold Weights → Standard Format → Metadata Schema → Python API → Validation → HEPData → Community Users
@@ -305,7 +306,7 @@ The API will also include a `load_from_hepdata(inspire_id, table_name)` function
 
 ### Task 6 — Validation Framework
 
-**Goal:** Standardized validation procedures that can be run on any OmniFold result to check correctness before publication.
+**Goal:** Standardized validation procedures that can be run on any OmniFold result to verify the correctness before publication.
 
 Validation checks:
 
@@ -510,7 +511,7 @@ By the end of GSoC 2026:
 
 ## About Me
 
-I am a 2nd-year B.Tech + M.Tech (Dual Degree) student in Computer Science and Engineering at IIT Kharagpur. My primary research interests are scientific software engineering, machine learning, and data-driven workflows.
+I am a 3rd-year B.Tech + M.Tech (Dual Degree) student in Computer Science and Engineering at IIT Kharagpur, India. My primary research interests are scientific software engineering, machine learning, and data-driven workflows.
 
 **Technical skills:**
 
@@ -522,11 +523,11 @@ I am a 2nd-year B.Tech + M.Tech (Dual Degree) student in Computer Science and En
 
 **Most relevant projects:**
 
-- **CNN with Uncertainty Quantification** *(Mentor: Prof. Amit Ghosh)* — Built a CNN with Monte Carlo Dropout for probabilistic uncertainty estimation, achieving 92% validation accuracy under noisy conditions. This experience with ensemble-style uncertainty quantification maps directly onto OmniFold's bootstrap and ensemble uncertainty framework.
+- **CNN with Uncertainty Quantification** *(Mentor: Prof. Amit Ghosh)* — Built a CNN with Monte Carlo Dropout for probabilistic uncertainty estimation, achieving 92% validation accuracy under noisy conditions. This experience with ensemble-style uncertainty quantification maps directly onto OmniFold's bootstrap and ensemble uncertainty framework. (https://github.com/Asmi-C/Deep-Learning-Tumor-Classification-using-CNNs-and-Monte-Carlo-Dropout-Uncertainty-Estimation)
 
-- **RL-Based Quantitative Trading System** *(Mentor: Dr. A. Chavan)* — Designed an RL pipeline integrating LSTM forecasting, Bayesian optimization, and weighted statistical validation over a 2-year multi-asset backtest (Sharpe 1.22, 30.3% cumulative return). Directly relevant to this project's weighted analysis and uncertainty propagation components.
-
-- **Estate Predict: ML Data Pipeline** — Engineered an end-to-end ML pipeline (Python, Scikit-Learn, Pandas, NumPy, Django) with automated ETL. Directly relevant to the HDF5 I/O, format conversion, and schema validation components of this project.
+- **RL-Based Quantitative Trading System** *(Mentor: Dr. A. Chavan)* — Designed an RL pipeline integrating LSTM forecasting, Bayesian optimization, and weighted statistical validation over a 2-year multi-asset backtest (Sharpe 1.22, 30.3% cumulative return). Directly relevant to this project's weighted analysis and uncertainty propagation components. (https://github.com/Asmi-C/Stock-Price-Optimization/tree/main, https://bit.ly/4c31W6E)
+  
+- **Estate Predict: ML Data Pipeline** — Engineered an end-to-end ML pipeline (Python, Scikit-Learn, Pandas, NumPy, Django) with automated ETL. Directly relevant to the HDF5 I/O, format conversion, and schema validation components of this project. (https://github.com/asmic03/house-price-prediction)
 
 - **IEEE Xplore Publication (2022), Crest Gold Award — British Science Association UK** — *Intelligent Hybrid Multi-Objective Optimization Model*, hybrid ANN-TOPSIS framework, 3.5× RAE gain. [[Link]](https://bit.ly/4bZ8frT)
 
@@ -534,7 +535,7 @@ I am a 2nd-year B.Tech + M.Tech (Dual Degree) student in Computer Science and En
 
 I completed the evaluation task before writing this proposal, and that work directly shapes every design decision here. My gap analysis identified the specific missing information in real OmniFold output files. My metadata schema addresses those gaps with explicit justification for every field — and it is already functional, having been designed against actual data rather than hypothetical requirements. Experience with Monte Carlo Dropout uncertainty quantification, end-to-end data pipelines, and weighted statistical analysis means the hardest parts of this project — uncertainty propagation, HDF5 format design, and validation — are all within my demonstrated competence.
 
-I am applying only to this project within GSoC 2026.
+### This is the only project I have applied to and it remains my top and sole preference for GSoC 2026. I am highly interested and genuinely excited to contribute to this project.
 
 ---
 
