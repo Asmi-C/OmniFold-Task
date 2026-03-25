@@ -1,4 +1,5 @@
-# Google Summer of Code 2026 Proposal — Publication of OmniFold Weights
+# Google Summer of Code 2026 Proposal
+# Project: Omnifold-Publication of OmniFold Weights
 ## Standardizing the Publication, Preservation, and Reuse of ML-Based Unfolding Results
 
 ---
@@ -8,12 +9,14 @@
 | | |
 |---|---|
 | **Name** | Asmi Choudhary |
-| **University** | IIT(Indian Institute of Technology), Kharagpur |
+| **University** | IIT(Indian Institute of Technology), Kharagpur, India |
 | **Degree** | B.Tech + M.Tech (Dual Degree), Computer Science and Engineering |
 | **Year** | 3rd Year |
+| **Year of Study** | 2023-2028 |
 | **Email** | asmichoudhary03@gmail.com |
 | **GitHub** | https://github.com/Asmi-C |
-| **Evaluation Task** | https://github.com/Asmi-C/OmniFold-Task |
+| **Linkedin** | https://www.linkedin.com/in/asmi-choudhary/ | 
+|**Evaluation Task** | https://github.com/Asmi-C/OmniFold-Task |
 | **Timezone** | IST (UTC +5:30) |
 
 ---
